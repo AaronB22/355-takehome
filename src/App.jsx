@@ -3,6 +3,7 @@ import JobList from './components/JobList';
 // import { applications } from './applications';
 import { byNewest } from './statuses';
 import { useEffect, useState } from 'react';
+import FilterBar from './components/FilterBar';
 
 /**
  * Stage 1: the tracker renders a fixed list of applications.
@@ -14,6 +15,12 @@ import { useEffect, useState } from 'react';
 export default function App() {
 	const [applications, setApplications] = useState([]);
 	const [loading, setLoading]= useState("loading")
+	const [filter, setFilter]= useState({});
+
+	const applyFilters=(value, chip)=>{
+		console.log(value, chip)
+	}
+
 	useEffect(() => {
 		const controller = new AbortController();
 		async function loadApplications() {
@@ -50,6 +57,7 @@ export default function App() {
 
 			<main className="container">
 				<SummaryBar applications={sorted} />
+				<FilterBar applyFilters={applyFilters}/>
 				<div className="page-head">
 					<h2>Applications</h2>
 				</div>
