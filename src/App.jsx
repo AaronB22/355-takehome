@@ -1,6 +1,6 @@
 import SummaryBar from './components/SummaryBar';
 import JobList from './components/JobList';
-import { applications } from './applications';
+// import { applications } from './applications';
 import { byNewest } from './statuses';
 import { useEffect, useState } from 'react';
 
@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
  * disagree with what is on screen.
  */
 export default function App() {
-	const [applications, setApplications] = useState();
+	const [applications, setApplications] = useState([]);
 	useEffect(() => {
 		async function loadApplications() {
 			const responce = await fetch("/applications.json");
