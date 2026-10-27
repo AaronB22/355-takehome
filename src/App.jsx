@@ -13,15 +13,25 @@ import { useEffect, useState } from 'react';
  */
 export default function App() {
 	const [applications, setApplications] = useState([]);
+	const [loading, setLoading]= useState("loading")
 	useEffect(() => {
 		async function loadApplications() {
-			const responce = await fetch("/applications.json");
-			if (responce.ok) {
-				const data = await responce.json();
-				setApplications(data);
+			try{
+				const responce = await fetch("/applications.json");
+				if (responce.ok) {
+					const data = await responce.json();
+					setApplications(data);
+					setLoading("loaded")
+				}
+				else {
+					setLoading("error");
+					throw new Error(`Request failed: ${responce.status}`);
+					
+				}
+
 			}
-			else {
-				throw new Error(`Request failed: ${responce.status}`);
+			catch(err){
+				setLoading("error")
 			}
 		}
 		loadApplications();
@@ -41,7 +51,7 @@ export default function App() {
 				<div className="page-head">
 					<h2>Applications</h2>
 				</div>
-				<JobList applications={sorted} />
+				<JobList applications={sorted} loading={loading} />
 			</main>
 		</>
 	);
