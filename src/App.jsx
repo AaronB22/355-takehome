@@ -15,6 +15,7 @@ export default function App() {
 	const [applications, setApplications] = useState([]);
 	const [loading, setLoading]= useState("loading")
 	useEffect(() => {
+		const controller = new AbortController();
 		async function loadApplications() {
 			try{
 				const responce = await fetch("/applications.json");
@@ -35,6 +36,7 @@ export default function App() {
 			}
 		}
 		loadApplications();
+		return()=> controller.abort();
 	}, [])
 	const sorted = [...applications].sort(byNewest);
 
