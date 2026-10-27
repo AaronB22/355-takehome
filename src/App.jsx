@@ -2,6 +2,7 @@ import SummaryBar from './components/SummaryBar';
 import JobList from './components/JobList';
 import { applications } from './applications';
 import { byNewest } from './statuses';
+import { useEffect, useState } from 'react';
 
 /**
  * Stage 1: the tracker renders a fixed list of applications.
@@ -11,9 +12,20 @@ import { byNewest } from './statuses';
  * disagree with what is on screen.
  */
 export default function App() {
-	// Copy before sorting: sort() rearranges the array it is given, and that
-	// array is the imported module — mutating it would change what every other
-	// importer sees.
+	const [applications, setApplications] = useState();
+	useEffect(() => {
+		async function loadApplications() {
+			const responce = await fetch("/applications.json");
+			if (responce.ok) {
+				const data = await responce.json();
+				setApplications(data);
+			}
+			else {
+				throw new Error(`Request failed: ${responce.status}`);
+			}
+		}
+		loadApplications();
+	}, [])
 	const sorted = [...applications].sort(byNewest);
 
 	return (
