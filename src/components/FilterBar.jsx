@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 export default function FilterBar({applyFilters}) {
-    const [search, setSearch]= useState()
+    const [search, setSearch]= useState("")
     const [chip, setChip]= useState("All")
 
     return (
@@ -22,7 +22,9 @@ export default function FilterBar({applyFilters}) {
                 Rejected
             </button>
             
-            <input type="search" value={search}  onChange={(e)=> applyFilters(e.target.value, chip)} />
+            <input type="search" value={search}  onChange={(e)=>{
+                setSearch(e.target.value);
+                applyFilters(e.target.value, chip)}} />
         </div>
     )
 }

@@ -13,12 +13,13 @@ import FilterBar from './components/FilterBar';
  * disagree with what is on screen.
  */
 export default function App() {
+
 	const [applications, setApplications] = useState([]);
 	const [loading, setLoading]= useState("loading")
-	const [filter, setFilter]= useState({});
+	const [filter, setFilter]= useState({ value: '', chip: 'All' });
 
 	const applyFilters=(value, chip)=>{
-		console.log(value, chip)
+		setFilter({value,chip})
 	}
 
 	useEffect(() => {
@@ -46,6 +47,7 @@ export default function App() {
 		return()=> controller.abort();
 	}, [])
 	const sorted = [...applications].sort(byNewest);
+	const visible= sorted.filter(application=>(filter.chip==='All'||application.status===filter.chip)&&`${application.company} ${application.role}`.toLocaleLowerCase().includes(filter.value.toLocaleLowerCase()));
 
 	return (
 		<>
@@ -61,7 +63,7 @@ export default function App() {
 				<div className="page-head">
 					<h2>Applications</h2>
 				</div>
-				<JobList applications={sorted} loading={loading} />
+				<JobList applications={visible} loading={loading} />
 			</main>
 		</>
 	);
