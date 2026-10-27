@@ -26,7 +26,7 @@ export default function App() {
 		const controller = new AbortController();
 		async function loadApplications() {
 			try{
-				const responce = await fetch("/applications.json");
+				const responce = await fetch("/applications.json"  ,{ signal: controller.signal });
 				if (responce.ok) {
 					const data = await responce.json();
 					setApplications(data);
@@ -40,6 +40,7 @@ export default function App() {
 
 			}
 			catch(err){
+				if (err.name === 'AbortError') return;
 				setLoading("error")
 			}
 		}
