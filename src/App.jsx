@@ -48,7 +48,7 @@ export default function App() {
 	}, [])
 	const sorted = [...applications].sort(byNewest);
 	const visible= sorted.filter(application=>(filter.chip==='All'||application.status===filter.chip)&&`${application.company} ${application.role}`.toLocaleLowerCase().includes(filter.value.toLocaleLowerCase()));
-
+	
 	return (
 		<>
 			<header className="site-header">
@@ -63,7 +63,7 @@ export default function App() {
 				<div className="page-head">
 					<h2>Applications</h2>
 				</div>
-				<JobList applications={visible} loading={loading} />
+				<JobList applications={visible} loading={loading} emptyMessage={applications.length > 0 ? 'No applications match these filters.' : 'No applications yet.'} />
 			</main>
 		</>
 	);

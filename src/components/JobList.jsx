@@ -8,7 +8,7 @@ import JobCard from './JobCard';
  * the caller passes the wording that fits.
  */
 export default function JobList({ applications, emptyMessage = 'No applications yet.', loading }) {
-	if (applications.length === 0&&loading==="loaded") {
+	if (applications.length === 0 && loading === "loaded") {
 		return <p className="empty">{emptyMessage}</p>;
 	}
 	switch (loading) {
@@ -18,7 +18,7 @@ export default function JobList({ applications, emptyMessage = 'No applications 
 					Loading data
 				</p>
 			)
-		
+
 		case "loaded":
 			return (
 				<ul className="job-list">
@@ -30,8 +30,13 @@ export default function JobList({ applications, emptyMessage = 'No applications 
 					))}
 				</ul>
 			);
-			
 
+		case "NoFilter":
+			return (
+				<p className="loading">
+					No applications match these filters
+				</p>
+			);
 		default:
 			return (
 				<p className='error'>
